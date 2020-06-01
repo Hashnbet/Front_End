@@ -1,35 +1,25 @@
 import React, { useState } from 'react'
-
 import styled from 'styled-components';
 
 
-let betdata = [
+const betdata = [
     {
         id: 1,
         title: "package gets here before 5",
         betAmount: 2000,
-        winner: false,
-        created_at: Date.now(),
-        user1: "holly",
-        user2: "sarah"
+
     },
     {
         id: 2,
         title: " just because you think you are right",
         betAmount: 2000,
-        winner: false,
-        created_at: Date.now(),
-        user1: "dave",
-        user2: "bill"
+  
     },
     {
         id: 3,
         title: "If I am right",
         betAmount: 500,
-        winner: false,
-        created_at: Date.now(),
-        user1: "frank",
-        user2: "steve"
+ //User info will be here on the back end 
     },
 ];
 
@@ -40,41 +30,36 @@ const BetBox = styled.div`
 
 
 const DashFeed = () => {
-    const [newBet, setnewBet] = useState({betdata: betdata});
+    const [newBet, setnewBet] = useState({betdata});
     const [modal, setModal] = useState(false)
 
 
-    const betModal =() => {
-        const addBet = (title) =>{
-            setnewBet({betdata: [...betdata, {
-                id: 4,
-                title: title,
-                betAmount: 2000,
-                winner: false,
-                created_at: Date.now(),
-                user1: "frank",
-                user2: "steve"
-            }]
-            })
-        setModal(false);
-        }
-    const handleChange =(e)=> {
-        e.preventDefault()
-    }
+    const betModal = () => {
+            //Axios post here 
 
+     
         return(
             <>
-                <form>
+                <form >
                     <h4>Whats the bet?</h4>
                     <input
                         type="text"
-                        value={betdata.title}
-                        onChange={handleChange}
+                        name='title'
+                        value={newBet.title}
+                        onChange={(e) => setnewBet(e.target.value)}
                         placeholder="New Bet Here.."
                     />
+                <input
+                        type="number"
+                        name='betAmount'
+                        value={newBet.betAmount}
+                        onChange={(e) => setnewBet(e.target.value)}
+                        placeholder="New Bet Here.."
+                    />
+                
                 </form>
                 <button onClick={()=> setModal(false)}>Close</button>
-                <button onClick={()=> addBet(betdata.title)}>Save</button>
+                <button>Save</button>
             </>
         )
     }
@@ -86,7 +71,7 @@ return (
             {modal && betModal()}
             <div>
                 <h1>Bets</h1>
-                {betdata.map(bets => {
+                {betdata.map((bets,i) => {
                     return <BetBox>
                         <h3>{bets.title}</h3>
                         <p>{bets.betAmount}</p>
